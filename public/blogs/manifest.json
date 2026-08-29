@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "ebpf-observability",
+    "title": "eBPF-Based Observability: Monitoring Without the Overhead",
+    "date": "2025-08-15",
+    "description": "How we use eBPF to gain deep system visibility at PhonePe without instrumenting every service — kernel-level tracing for metrics, traces, and network events.",
+    "tags": ["eBPF", "Observability", "Linux", "Systems"],
+    "readTime": "8 min read"
+  },
+  {
+    "slug": "multiprocess-python-metrics",
+    "title": "Handling Multi-Process Python Workers for Metrics Collection",
+    "date": "2025-07-20",
+    "description": "The Gunicorn/uWSGI fork problem with OpenTelemetry metrics, and how post-fork meter re-initialization hooks + PID drift detection solve it.",
+    "tags": ["Python", "OpenTelemetry", "Gunicorn", "Metrics"],
+    "readTime": "6 min read"
+  }
+]
