@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowDown, Mail } from 'lucide-react'
+import { ArrowDown, Mail, Download } from 'lucide-react'
 
 function GithubIcon({ size = 18 }) {
     return (
@@ -99,6 +99,23 @@ export default function Hero() {
                                 <Mail size={18} />
                             </a>
                         </div>
+                    </motion.div>
+
+                    {/* Download Resume */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.7, delay: 0.4 }}
+                        className="mb-10"
+                    >
+                        <a
+                            href="/resume.pdf"
+                            download
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-accent/30 bg-accent/10 text-accent hover:bg-accent/20 transition-all text-sm font-mono"
+                        >
+                            <Download size={16} />
+                            download resume
+                        </a>
                     </motion.div>
 
                     {/* Scroll indicator */}
