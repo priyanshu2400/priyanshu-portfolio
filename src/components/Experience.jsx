@@ -84,8 +84,8 @@ function ExperienceCard({ exp, index }) {
 
             {/* Timeline dot */}
             <div className={`absolute left-0 top-2 w-[15px] h-[15px] rounded-full border-2 ${exp.type === 'Full-time'
-                    ? 'border-accent bg-accent-glow'
-                    : 'border-amber bg-amber/10'
+                ? 'border-accent bg-accent-glow'
+                : 'border-amber bg-amber/10'
                 }`} />
 
             {/* Content */}
@@ -95,8 +95,8 @@ function ExperienceCard({ exp, index }) {
                         {exp.role}
                     </h3>
                     <span className={`text-xs font-mono px-2 py-0.5 rounded-full w-fit ${exp.type === 'Full-time'
-                            ? 'bg-accent/10 text-accent'
-                            : 'bg-amber/10 text-amber'
+                        ? 'bg-accent/10 text-accent'
+                        : 'bg-amber/10 text-amber'
                         }`}>
                         {exp.type}
                     </span>
