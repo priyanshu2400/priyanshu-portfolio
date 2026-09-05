@@ -140,7 +140,7 @@ export default function Hero() {
                                 <Mail size={16} />
                                 {copied ? 'Copied!' : 'Email'}
                             </a>
-                            <a href="/resume.pdf" download className="btn btn-secondary">
+                            <a href="/resume.pdf" download="Priyanshu_Resume.pdf" className="btn btn-secondary">
                                 <Download size={16} />
                                 Resume
                             </a>
