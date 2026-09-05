@@ -58,7 +58,7 @@ export default function Header({ onOpenBlog }) {
                     </a>
                     <a
                         href="/resume.pdf"
-                        download
+                        download="Priyanshu_Resume.pdf"
                         className="btn btn-primary btn-sm"
                     >
                         resume
@@ -118,7 +118,7 @@ export default function Header({ onOpenBlog }) {
                             </a>
                             <a
                                 href="/resume.pdf"
-                                download
+                                download="Priyanshu_Resume.pdf"
                                 onClick={() => setMobileOpen(false)}
                                 className="btn btn-primary btn-sm w-fit mt-1"
                             >

@@ -65,6 +65,7 @@ export default function Footer() {
                         </a>
                         <a
                             href="/resume.pdf"
+                            download="Priyanshu_Resume.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="transition-colors duration-150"
