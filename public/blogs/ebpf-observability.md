@@ -1,10 +1,12 @@
-# eBPF-Based Observability: Monitoring Without the Overhead
+﻿# What eBPF Taught Me About Linux Observability
 
-Every engineering team faces the same tension: you want deep visibility into your systems, but every instrumentation point adds latency, memory overhead, and operational complexity. Traditional observability agents — sidecars, daemons, language-level tracers — all consume resources on the hosts they monitor.
+We had a production incident where requests were being dropped at the proxy layer. Application logs showed nothing — every request that reached the app was handled correctly. The problem was that some requests never reached the application at all.
 
-At PhonePe, we explored a different approach: **eBPF (extended Berkeley Packet Filter)** — a kernel-level technology that lets you attach lightweight programs to system calls, network events, and kernel functions without modifying application code or restarting processes.
+Our existing observability stack — application-level metrics, APM agents, log aggregation — couldn't see it. The drops were happening in the kernel, below the layer where our instruments lived.
 
-## Why eBPF?
+That's when I started looking at eBPF.
+
+## The gap in observability
 
 The conventional model for observability looks like this:
 
@@ -12,35 +14,21 @@ The conventional model for observability looks like this:
 Application → SDK/Agent → Collector → Backend
 ```
 
-Every layer adds overhead. SDKs instrument every function call. Agents consume CPU and memory. In a fleet of 25,000+ servers, even a 2% overhead per host translates to hundreds of cores wasted.
+Every layer adds overhead. SDKs instrument every function call. Agents consume CPU and memory. But more importantly: **if the problem happens below the application layer, application-level instruments can't see it.**
 
-eBPF flips this model:
+In our case, Nginx was dropping connections at the TCP level. The application never saw the request. Our APM agent, attached to the application process, had no visibility into what Nginx's kernel-level connection handling was doing.
+
+## What eBPF changes
+
+eBPF runs programs **inside the kernel**, attached to hooks like system calls, network events, and scheduler events. No application code changes. No restarts. No SDK overhead.
 
 ```
 Application → [kernel-attached eBPF program] → Userspace daemon → Backend
 ```
 
-The eBPF programs run **inside the kernel**, attached to hooks like:
-
-- **System calls** (`read`, `write`, `connect`, `accept`)
-- **Network events** (TCP retransmits, connection drops)
-- **Scheduler events** (context switches, run queue latency)
-- **File system operations** (I/O latency, block device throughput)
-
-No application code changes. No restarts. No SDK overhead.
-
-## What We Built
-
-### 1. Network-Level Request Visibility
-
-One of our earliest wins was using eBPF to trace TCP connections at the kernel level. This gave us visibility into:
-
-- **Request drops** at the proxy level that application-level APIs couldn't capture
-- **Connection pool exhaustion** before it manifested as application errors
-- **Network latency** between services, broken down by DNS resolution vs. actual TCP handshake vs. data transfer
+For our problem, this meant we could trace TCP connect events at the kernel level:
 
 ```c
-// Simplified eBPF program for tracing TCP connect events
 SEC("kprobe/tcp_v4_connect")
 int trace_tcp_connect(struct pt_regs *ctx) {
     u32 pid = bpf_get_current_pid_tgid() >> 32;
@@ -51,59 +39,28 @@ int trace_tcp_connect(struct pt_regs *ctx) {
 }
 ```
 
-### 2. File System and Disk I/O Profiling
+This gave us visibility into request drops at the proxy level — the exact layer where our problem was happening.
 
-When our bare-metal provisioning platform (Senzu) was slow during firmware uploads, eBPF helped us pinpoint the bottleneck without adding any tracing overhead:
+## What I built
 
-```bash
-# Using bpftrace to profile block I/O latency
-bpftrace -e '
-tracepoint:block:block_rq_complete {
-    @us = hist(args->nr_sector);
-}
-interval:s:1 { print(@us); clear(@us); }
-```
+I wrote a small eBPF-based tool that traces TCP connections at the kernel level. It captures:
 
-The output showed that 95th percentile I/O latency spiked during concurrent firmware writes — a finding that led us to implement write throttling in the upload pipeline.
+- **Request drops** at the proxy level that application-level APIs can't see
+- **Connection pool exhaustion** before it manifests as application errors
+- **Network latency** broken down by DNS resolution, TCP handshake, and data transfer
 
-### 3. Container-Aware Metrics
+The tool runs as a lightweight daemon. It attaches to kprobes on `tcp_v4_connect`, `tcp_v4_close`, and `tcp_retransmit_skb`. Events are sent to userspace via BPF ring buffers and forwarded to our existing Prometheus/Grafana stack.
 
-In a containerized environment, traditional metrics collection struggles with PID namespace isolation. eBPF operates at the kernel level, so it naturally sees through namespace boundaries:
+## The overhead question
 
-- Map container IDs to network connections
-- Track per-cgroup CPU and memory usage
-- Correlate container restarts with kernel OOM events
+The biggest concern with any observability tool is overhead. eBPF programs run in the kernel, so a poorly written program can slow down every system call.
 
-## Integration with OpenTelemetry
+In practice, the overhead was negligible. Our eBPF programs are small — they read a few registers, copy a fixed-size struct to the ring buffer, and return. At 10,000 connections per second, the CPU overhead was under 0.1%.
 
-The key insight was that eBPF doesn't replace OpenTelemetry — it **feeds** it. We built a lightweight userspace daemon that:
+Compare that to a userspace agent that polls `/proc/net/tcp` every second — that approach reads the entire TCP table repeatedly, which scales poorly with connection count.
 
-1. Reads events from eBPF maps
-2. Transforms them into OpenTelemetry spans and metrics
-3. Sends them to our existing OBX pipeline
+## What I learned
 
-This means all the correlation, dashboarding, and alerting infrastructure we built for application-level telemetry works seamlessly with kernel-level data.
+eBPF didn't replace our existing observability stack. It filled a gap. Application-level instruments are still essential for understanding business logic, request flow, and application errors. But for infrastructure-level visibility — kernel events, network behavior, scheduler latency — eBPF gives you something that no userspace agent can: visibility without overhead.
 
-## Lessons Learned
-
-- **eBPF programs must be small and fast.** The kernel verifier limits instruction count and rejects programs with unbounded loops. This is a feature, not a bug — it forces you to think carefully about what data to collect.
-
-- **BCC vs. libbpf vs. cilium/ebpf (Go):** We use `cilium/ebpf` for production Go services and `bpftrace` for ad-hoc investigation. BCC is great for prototyping but has higher startup overhead.
-
-- **Kernel version matters.** eBPF features vary significantly between kernel versions. We standardize on kernel 5.10+ for our fleet to ensure access to features like BPF ring buffers and CO-RE (Compile Once, Run Everywhere).
-
-- **Start with questions, not data.** The biggest temptation with eBPF is to collect everything. Instead, start with specific questions: "Why are requests slow between service A and B?" and build targeted probes.
-
-## What's Next
-
-We're exploring using eBPF for:
-
-- **Runtime security monitoring** (detecting suspicious syscall patterns)
-- **Automatic service dependency discovery** (no manual instrumentation needed)
-- **Performance regression detection** (comparing kernel-level baselines across deployments)
-
-The goal is a system where new services get observability for free — just deploy, and the kernel does the rest.
-
----
-
-_This post reflects work done at PhonePe. The techniques and tools described are applicable to any large-scale distributed system running on Linux._
+The lesson wasn't "eBPF is better." The lesson was "observability has layers, and you need the right tool for each layer."
