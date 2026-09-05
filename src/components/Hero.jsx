@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { ArrowDown, Mail, Download } from 'lucide-react'
+﻿import { motion } from 'framer-motion'
+import { ArrowDown, Download, Mail } from 'lucide-react'
+import { useState } from 'react'
 
 function GithubIcon({ size = 18 }) {
     return (
@@ -18,123 +19,170 @@ function LinkedinIcon({ size = 18 }) {
 }
 
 export default function Hero() {
+    const [copied, setCopied] = useState(false)
+
+    const handleEmail = (e) => {
+        e.preventDefault()
+        const email = 'priyanshujha024@gmail.com'
+        // Try opening mail client via location change
+        const link = document.createElement('a')
+        link.href = `mailto:${email}`
+        link.style.display = 'none'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        // Fallback: copy to clipboard after a short delay
+        setTimeout(() => {
+            navigator.clipboard.writeText(email).then(() => {
+                setCopied(true)
+                setTimeout(() => setCopied(false), 2000)
+            }).catch(() => {})
+        }, 300)
+    }
+
     return (
-        <section className="min-h-screen flex items-center justify-center px-6 relative">
-            {/* subtle grid background */}
+        <section className="min-h-dvh flex items-center justify-center px-6 pt-24 md:pt-0 relative overflow-hidden">
+            {/* Hero orb */}
+            <div className="hero-orb" />
+
+            {/* Subtle grid */}
             <div
-                className="absolute inset-0 opacity-[0.03]"
+                className="absolute inset-0 opacity-[0.025]"
                 style={{
-                    backgroundImage: `linear-gradient(var(--color-text-muted) 1px, transparent 1px), linear-gradient(90deg, var(--color-text-muted) 1px, transparent 1px)`,
+                    backgroundImage: `linear-gradient(var(--color-text-tertiary) 1px, transparent 1px), linear-gradient(90deg, var(--color-text-tertiary) 1px, transparent 1px)`,
                     backgroundSize: '60px 60px',
                 }}
             />
 
-            <div className="relative z-10 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-16">
-                {/* Profile Photo */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: 0.05 }}
-                    className="shrink-0"
-                >
-                    <div className="w-40 sm:w-52 aspect-[3/4] rounded-2xl overflow-hidden border-2 border-border ring-2 ring-accent/20 ring-offset-2 ring-offset-[var(--color-bg)]">
-                        <img
-                            src="/profile_photo/image.jpeg"
-                            alt="Priyanshu"
-                            className="w-full h-full object-cover"
-                        />
-                    </div>
-                </motion.div>
-
-                {/* Text Content */}
-                <div className="text-center md:text-left">
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.15 }}
-                        className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-6"
-                    >
-                        <span className="text-text-primary">Priyanshu</span>
-                    </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.2 }}
-                        className="text-lg sm:text-xl text-text-secondary mb-8 leading-relaxed"
-                    >
-                        Software Engineer at{' '}
-                        <span className="text-text-primary font-medium">PhonePe</span>
-                    </motion.p>
-
-                    {/* Location + Links */}
+            <div className="relative z-10 max-w-5xl mx-auto w-full">
+                <div className="flex flex-col items-center md:flex-row md:items-center gap-10 md:gap-14">
+                    {/* Photo — top on mobile, right on desktop */}
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.3 }}
-                        className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mb-10"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ type: 'spring', duration: 0.6, delay: 0.2, bounce: 0 }}
+                        className="shrink-0 md:order-last"
                     >
-                        <span className="text-sm font-mono text-text-muted leading-none py-0.5">📍 Bangalore, India</span>
-                        <div className="flex items-center gap-3">
+                        <div
+                            className="w-36 sm:w-48 md:w-56 aspect-[3/4] rounded-2xl overflow-hidden"
+                            style={{
+                                border: '1px solid var(--color-border-medium)',
+                                boxShadow: '0 0 40px rgba(212, 160, 60, 0.08)',
+                            }}
+                        >
+                            <img
+                                src="/profile_photo/image.jpeg"
+                                alt="Priyanshu Jha"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    </motion.div>
+
+                    {/* Text content — below photo on mobile, left on desktop */}
+                    <div className="flex-1 text-center md:text-left">
+                        {/* Headline */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: 'spring', duration: 0.6, delay: 0.1, bounce: 0 }}
+                            className="display-headline mb-6"
+                        >
+                            <span className="hl-muted">I build systems that work in </span>
+                            <span className="hl-bright">production</span>
+                            <br />
+                            <span className="hl-muted">and </span>
+                            <span className="hl-bright">observability tools</span>
+                            <span className="hl-muted"> so I know when they don't. 😉</span>
+                        </motion.h1>
+
+                        {/* Supporting line */}
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: 'spring', duration: 0.6, delay: 0.15, bounce: 0 }}
+                            className="text-base sm:text-lg mb-8 leading-relaxed"
+                            style={{ textWrap: 'balance', color: 'var(--color-text-secondary)' }}
+                        >
+                            Software Engineer at <span className="hl-bright">PhonePe</span> working on observability, infrastructure tooling, and bare-metal provisioning at production scale. I mostly work with Go, Python, OpenTelemetry, Linux, and distributed systems.
+                        </motion.p>
+
+                        {/* CTA links */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ type: 'spring', duration: 0.6, delay: 0.25, bounce: 0 }}
+                            className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-8"
+                        >
                             <a
                                 href="https://github.com/priyanshu2400"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2.5 rounded-lg border border-border bg-surface-raised hover:border-accent hover:bg-accent-glow transition-all text-text-secondary hover:text-accent"
+                                className="btn btn-secondary"
                             >
-                                <GithubIcon size={18} />
+                                <GithubIcon size={16} />
+                                GitHub
                             </a>
                             <a
-                                href="https://www.linkedin.com/in/priyanshu2400/"
+                                href="https://linkedin.com/in/priyanshujha07"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2.5 rounded-lg border border-border bg-surface-raised hover:border-accent hover:bg-accent-glow transition-all text-text-secondary hover:text-accent"
+                                className="btn btn-secondary"
                             >
-                                <LinkedinIcon size={18} />
+                                <LinkedinIcon size={16} />
+                                LinkedIn
                             </a>
                             <a
                                 href="mailto:priyanshujha024@gmail.com"
-                                className="p-2.5 rounded-lg border border-border bg-surface-raised hover:border-accent hover:bg-accent-glow transition-all text-text-secondary hover:text-accent"
+                                className="btn btn-secondary"
+                                onClick={handleEmail}
+                                style={{ position: 'relative' }}
                             >
-                                <Mail size={18} />
+                                <Mail size={16} />
+                                {copied ? 'Copied!' : 'Email'}
                             </a>
-                        </div>
-                    </motion.div>
-
-                    {/* Download Resume */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.7, delay: 0.4 }}
-                        className="mb-10"
-                    >
-                        <a
-                            href="/resume.pdf"
-                            download
-                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-accent/30 bg-accent/10 text-accent hover:bg-accent/20 transition-all text-sm font-mono"
-                        >
-                            <Download size={16} />
-                            download resume
-                        </a>
-                    </motion.div>
-
-                    {/* Scroll indicator */}
-                    <motion.a
-                        href="#experience"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 0.7, delay: 0.5 }}
-                        className="inline-flex flex-col items-center md:items-start gap-2 text-text-muted hover:text-text-secondary transition-colors"
-                    >
-                        <span className="text-xs font-mono">scroll down</span>
-                        <motion.div
-                            animate={{ y: [0, 6, 0] }}
-                            transition={{ duration: 1.5, repeat: Infinity }}
-                        >
-                            <ArrowDown size={16} />
+                            <a href="/resume.pdf" download className="btn btn-secondary">
+                                <Download size={16} />
+                                Resume
+                            </a>
                         </motion.div>
-                    </motion.a>
+
+                        {/* Tech stack line */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.5, delay: 0.35 }}
+                            className="flex flex-wrap items-center justify-center md:justify-start gap-x-2 gap-y-1 text-xs font-mono"
+                            style={{ color: 'var(--color-text-tertiary)' }}
+                        >
+                            <span>Go</span>
+                            <span style={{ color: 'var(--color-border-medium)' }}>·</span>
+                            <span>Python</span>
+                            <span style={{ color: 'var(--color-border-medium)' }}>·</span>
+                            <span>OpenTelemetry</span>
+                            <span style={{ color: 'var(--color-border-medium)' }}>·</span>
+                            <span>Linux</span>
+                            <span style={{ color: 'var(--color-border-medium)' }}>·</span>
+                            <span>Distributed Systems</span>
+                        </motion.div>
+                    </div>
                 </div>
+
+                {/* Scroll indicator */}
+                <motion.a
+                    href="#work"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="flex justify-center mt-14 transition-colors duration-150"
+                    style={{ color: 'var(--color-text-muted)' }}
+                >
+                    <motion.div
+                        animate={{ y: [0, 6, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                        <ArrowDown size={16} />
+                    </motion.div>
+                </motion.a>
             </div>
         </section>
     )

@@ -4,11 +4,18 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Priyanshu</title>
+    <title>
+      Priyanshu Jha — Backend, Infrastructure & Observability Engineer
+    </title>
+    <meta
+      name="description"
+      content="Backend, infrastructure, and observability engineer. I build internal platforms, production tooling, and telemetry systems using Go, Python, Linux, and OpenTelemetry."
+    />
+    <meta name="theme-color" content="#0a0907" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
@@ -16,10 +23,14 @@
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
     <script>
-      const active = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="%23111"/><text x="16" y="22.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="20" fill="white">P</text></svg>';
-      const inactive = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="%23bbb"/><text x="16" y="22.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="20" fill="white">P</text></svg>';
-      document.addEventListener('visibilitychange', () => {
-        document.querySelector('link[rel="icon"]').href = document.hidden ? inactive : active;
+      const active =
+        'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="%23111"/><text x="16" y="22.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="20" fill="white">P</text></svg>';
+      const inactive =
+        'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="%23bbb"/><text x="16" y="22.5" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-weight="700" font-size="20" fill="white">P</text></svg>';
+      document.addEventListener("visibilitychange", () => {
+        document.querySelector('link[rel="icon"]').href = document.hidden
+          ? inactive
+          : active;
       });
     </script>
   </body>
