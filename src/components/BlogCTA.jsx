@@ -3,7 +3,7 @@ import { ArrowRight, BookOpen } from 'lucide-react'
 
 export default function BlogCTA({ onOpenBlog }) {
     return (
-        <section id="notes" className="py-24 px-6" style={{ background: 'var(--color-surface-raised)' }}>
+        <section id="notes" className="py-24 px-6 relative section-divider">
             <div className="max-w-3xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -43,7 +43,7 @@ export default function BlogCTA({ onOpenBlog }) {
                         <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
                             A production metrics bug that turned out to be a process-lifecycle problem.
                         </p>
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
                             <span className="tag tag-accent">Python</span>
                             <span className="tag tag-accent">OpenTelemetry</span>
                             <span className="tag tag-accent">Observability</span>
@@ -67,7 +67,7 @@ export default function BlogCTA({ onOpenBlog }) {
                         <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
                             Experiments with eBPF and what it changes about observing systems below the application layer.
                         </p>
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-2">
                             <span className="tag tag-accent">eBPF</span>
                             <span className="tag tag-accent">Linux</span>
                             <span className="tag tag-accent">Observability</span>
