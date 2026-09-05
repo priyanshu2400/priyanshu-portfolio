@@ -1,40 +1,94 @@
-import { motion } from 'framer-motion'
+﻿import { motion } from 'framer-motion'
 import { ArrowRight, BookOpen } from 'lucide-react'
 
 export default function BlogCTA({ onOpenBlog }) {
     return (
-        <section className="py-24 px-6">
+        <section id="notes" className="py-24 px-6" style={{ background: 'var(--color-surface-raised)' }}>
             <div className="max-w-3xl mx-auto">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="relative border border-accent/20 rounded-2xl p-8 sm:p-10 overflow-hidden"
+                    transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
+                    className="mb-12"
                 >
-                    {/* Subtle glow background */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/5 pointer-events-none" />
+                    <span className="section-label">[Engineering Notes]</span>
+                    <h2
+                        className="text-3xl font-bold tracking-tight"
+                        style={{ color: 'var(--color-text-primary)', textWrap: 'balance' }}
+                    >
+                        What I've written
+                    </h2>
+                    <p className="mt-2" style={{ color: 'var(--color-text-secondary)', textWrap: 'balance' }}>
+                        Notes from things I broke, fixed, measured, and learned while building production systems.
+                    </p>
+                </motion.div>
 
-                    <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-                        <div className="p-3 rounded-xl bg-accent/10 text-accent shrink-0">
-                            <BookOpen size={24} />
-                        </div>
-                        <div className="flex-1">
-                            <h2 className="text-xl sm:text-2xl font-bold text-text-primary mb-2">
-                                Read my writing
-                            </h2>
-                            <p className="text-sm text-text-secondary leading-relaxed mb-4 sm:mb-0">
-                                Deep dives into distributed systems, eBPF observability, multi-process Python metrics, and lessons from building at scale.
-                            </p>
-                        </div>
-                        <button
-                            onClick={onOpenBlog}
-                            className="shrink-0 w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent-dim transition-colors group"
+                {/* Blog preview cards */}
+                <div className="space-y-3 mb-8">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ type: 'spring', duration: 0.4, bounce: 0 }}
+                        onClick={onOpenBlog}
+                        className="card p-5 cursor-pointer group"
+                    >
+                        <h3
+                            className="text-base font-semibold mb-1 transition-colors duration-150"
+                            style={{ color: 'var(--color-text-primary)' }}
                         >
-                            Explore posts
-                            <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
-                        </button>
-                    </div>
+                            Why My Python Metrics Died After Gunicorn Forked
+                        </h3>
+                        <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
+                            A production metrics bug that turned out to be a process-lifecycle problem.
+                        </p>
+                        <div className="flex items-center gap-3">
+                            <span className="tag tag-accent">Python</span>
+                            <span className="tag tag-accent">OpenTelemetry</span>
+                            <span className="tag tag-accent">Observability</span>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ type: 'spring', duration: 0.4, delay: 0.06, bounce: 0 }}
+                        onClick={onOpenBlog}
+                        className="card p-5 cursor-pointer group"
+                    >
+                        <h3
+                            className="text-base font-semibold mb-1 transition-colors duration-150"
+                            style={{ color: 'var(--color-text-primary)' }}
+                        >
+                            What eBPF Taught Me About Linux Observability
+                        </h3>
+                        <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
+                            Experiments with eBPF and what it changes about observing systems below the application layer.
+                        </p>
+                        <div className="flex items-center gap-3">
+                            <span className="tag tag-accent">eBPF</span>
+                            <span className="tag tag-accent">Linux</span>
+                            <span className="tag tag-accent">Observability</span>
+                        </div>
+                    </motion.div>
+                </div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ type: 'spring', duration: 0.4, delay: 0.1, bounce: 0 }}
+                >
+                    <button
+                        onClick={onOpenBlog}
+                        className="btn btn-secondary"
+                    >
+                        <BookOpen size={16} />
+                        Read all notes
+                        <ArrowRight size={14} />
+                    </button>
                 </motion.div>
             </div>
         </section>

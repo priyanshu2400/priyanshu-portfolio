@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+﻿import { motion } from 'framer-motion'
 import { ExternalLink, MessageSquare, Zap, Layers } from 'lucide-react'
 
 function GithubIcon({ size = 16 }) {
@@ -15,15 +15,15 @@ const projects = [
         description:
             'Architected from scratch at PhonePe: a 5-layer platform unifying metrics, traces, and logs across three production regions for internal cloud applications.',
         metrics: [
-            { label: 'debugging time', value: '90%↓' },
-            { label: 'instrumentation effort', value: '85%↓' },
+            { label: 'debugging time', value: '90%' },
+            { label: 'instrumentation effort', value: '85%' },
             { label: 'servers monitored', value: '25K+' },
         ],
         tags: ['Go', 'OpenTelemetry', 'Grafana', 'Prometheus', 'Loki', 'Jaeger'],
         icon: Layers,
         link: null,
         github: null,
-        accent: 'accent',
+        meta: '3F1C9 // CONTEXT DEPTH: 12.4 // INSIGHT HASH: 7B',
     },
     {
         title: 'Zero-Code Instrumentation SDK',
@@ -37,58 +37,38 @@ const projects = [
         icon: Zap,
         link: null,
         github: null,
-        accent: 'amber',
+        meta: '2A8F3 // DEPTH: 8.1 // HASH: 4D',
     },
     {
         title: 'Placement Cell Website',
         description:
             'Full-stack application for placement management with real-time job notifications, single-click applications, and an AI chatbot for placement queries.',
         metrics: [
-            { label: 'submission time', value: '50%↓' },
-            { label: 'user engagement', value: '30%↑' },
+            { label: 'submission time', value: '50%' },
+            { label: 'user engagement', value: '30%' },
         ],
         tags: ['React', 'Redux', 'Material UI', 'Node.js', 'MongoDB', 'JWT', 'Gemini AI'],
         icon: MessageSquare,
         link: null,
         github: 'https://github.com/priyanshu2400/training-placement-client',
-        accent: 'green',
+        meta: '1B4E7 // DEPTH: 6.8 // HASH: 9C',
     },
 ]
 
 function ProjectCard({ project, index }) {
-    const accentMap = {
-        accent: {
-            border: 'hover:border-accent/30',
-            tag: 'bg-accent/10 text-accent',
-            icon: 'text-accent',
-            metric: 'text-accent',
-        },
-        amber: {
-            border: 'hover:border-amber/30',
-            tag: 'bg-amber/10 text-amber',
-            icon: 'text-amber',
-            metric: 'text-amber',
-        },
-        green: {
-            border: 'hover:border-green/30',
-            tag: 'bg-green/10 text-green',
-            icon: 'text-green',
-            metric: 'text-green',
-        },
-    }
-
-    const a = accentMap[project.accent]
-
     return (
         <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-60px' }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-            className={`bg-surface-raised border border-border rounded-xl p-6 transition-all duration-300 group ${a.border}`}
+            transition={{ type: 'spring', duration: 0.5, delay: index * 0.08, bounce: 0 }}
+            className="card p-6 group"
         >
             <div className="flex items-start justify-between mb-4">
-                <div className={`p-2.5 rounded-lg bg-surface-overlay ${a.icon}`}>
+                <div
+                    className="p-2.5 rounded-lg"
+                    style={{ background: 'var(--color-surface-overlay)', color: 'var(--color-accent)' }}
+                >
                     <project.icon size={20} />
                 </div>
                 <div className="flex items-center gap-2">
@@ -97,7 +77,8 @@ function ProjectCard({ project, index }) {
                             href={project.github}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-lg text-text-muted hover:text-text-secondary hover:bg-surface-overlay transition-all"
+                            className="pressable p-2 rounded-lg transition-[color] duration-150"
+                            style={{ color: 'var(--color-text-muted)' }}
                         >
                             <GithubIcon size={16} />
                         </a>
@@ -107,7 +88,8 @@ function ProjectCard({ project, index }) {
                             href={project.link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-2 rounded-lg text-text-muted hover:text-text-secondary hover:bg-surface-overlay transition-all"
+                            className="pressable p-2 rounded-lg transition-[color] duration-150"
+                            style={{ color: 'var(--color-text-muted)' }}
                         >
                             <ExternalLink size={16} />
                         </a>
@@ -115,20 +97,39 @@ function ProjectCard({ project, index }) {
                 </div>
             </div>
 
-            <h3 className="text-lg font-semibold text-text-primary mb-2 group-hover:text-accent transition-colors">
+            <h3
+                className="text-lg font-semibold mb-2 transition-colors duration-150"
+                style={{ color: 'var(--color-text-primary)', textWrap: 'balance' }}
+            >
                 {project.title}
             </h3>
-            <p className="text-sm text-text-secondary leading-relaxed mb-4">
+
+            {project.meta && (
+                <p className="arch-meta">{project.meta}</p>
+            )}
+
+            <p
+                className="text-sm leading-relaxed mb-4"
+                style={{ color: 'var(--color-text-secondary)', textWrap: 'pretty' }}
+            >
                 {project.description}
             </p>
 
             {/* Metrics */}
             {project.metrics && (
-                <div className="flex gap-4 mb-4 pb-4 border-b border-border-subtle">
+                <div
+                    className="flex gap-4 mb-4 pb-4"
+                    style={{ borderBottom: '1px solid var(--color-border)' }}
+                >
                     {project.metrics.map((m, i) => (
                         <div key={i} className="text-center">
-                            <div className={`text-lg font-bold font-mono ${a.metric}`}>{m.value}</div>
-                            <div className="text-xs text-text-muted">{m.label}</div>
+                            <div
+                                className="text-lg font-bold font-mono tabular-nums"
+                                style={{ color: 'var(--color-accent)' }}
+                            >
+                                {m.value}
+                            </div>
+                            <div className="text-xs" style={{ color: 'var(--color-text-muted)' }}>{m.label}</div>
                         </div>
                     ))}
                 </div>
@@ -137,10 +138,7 @@ function ProjectCard({ project, index }) {
             {/* Tags */}
             <div className="flex flex-wrap gap-2">
                 {project.tags.map((tag) => (
-                    <span
-                        key={tag}
-                        className={`text-xs font-mono px-2 py-1 rounded-md ${a.tag}`}
-                    >
+                    <span key={tag} className="tag tag-accent">
                         {tag}
                     </span>
                 ))}
@@ -151,20 +149,23 @@ function ProjectCard({ project, index }) {
 
 export default function Projects() {
     return (
-        <section id="projects" className="py-24 px-6 bg-surface-raised/30">
+        <section id="projects" className="py-24 px-6" style={{ background: 'var(--color-surface-raised)' }}>
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
                     className="mb-12"
                 >
-                    <span className="text-xs font-mono text-accent mb-3 block">// projects</span>
-                    <h2 className="text-3xl font-bold text-text-primary tracking-tight">
+                    <span className="section-label">[Projects]</span>
+                    <h2
+                        className="text-3xl font-bold tracking-tight"
+                        style={{ color: 'var(--color-text-primary)', textWrap: 'balance' }}
+                    >
                         What I've built
                     </h2>
-                    <p className="text-text-secondary mt-2">
+                    <p className="mt-2" style={{ color: 'var(--color-text-secondary)', textWrap: 'balance' }}>
                         Systems that run in production, not just on GitHub.
                     </p>
                 </motion.div>
