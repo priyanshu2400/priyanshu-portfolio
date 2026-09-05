@@ -25,7 +25,7 @@ const areas = [
 
 export default function WhatIDo() {
     return (
-        <section className="py-24 px-6" style={{ background: 'var(--color-surface-raised)' }}>
+        <section className="py-24 px-6 relative section-divider">
             <div className="max-w-3xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

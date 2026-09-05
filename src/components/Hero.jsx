@@ -37,12 +37,12 @@ export default function Hero() {
             navigator.clipboard.writeText(email).then(() => {
                 setCopied(true)
                 setTimeout(() => setCopied(false), 2000)
-            }).catch(() => {})
+            }).catch(() => { })
         }, 300)
     }
 
     return (
-        <section className="min-h-dvh flex items-center justify-center px-6 pt-24 md:pt-0 relative overflow-hidden">
+        <section className="h-dvh md:min-h-dvh grid place-items-center px-6 pt-4 pb-4 md:pt-0 md:pb-0 relative overflow-hidden">
             {/* Hero orb */}
             <div className="hero-orb" />
 
@@ -56,7 +56,7 @@ export default function Hero() {
             />
 
             <div className="relative z-10 max-w-5xl mx-auto w-full">
-                <div className="flex flex-col items-center md:flex-row md:items-center gap-10 md:gap-14">
+                <div className="flex flex-col items-center md:flex-row md:items-center gap-6 md:gap-14">
                     {/* Photo — top on mobile, right on desktop */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
@@ -65,7 +65,7 @@ export default function Hero() {
                         className="shrink-0 md:order-last"
                     >
                         <div
-                            className="w-36 sm:w-48 md:w-56 aspect-[3/4] rounded-2xl overflow-hidden"
+                            className="w-24 sm:w-36 md:w-56 aspect-[3/4] rounded-2xl overflow-hidden"
                             style={{
                                 border: '1px solid var(--color-border-medium)',
                                 boxShadow: '0 0 40px rgba(212, 160, 60, 0.08)',
@@ -86,12 +86,11 @@ export default function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: 'spring', duration: 0.6, delay: 0.1, bounce: 0 }}
-                            className="display-headline mb-6"
+                            className="display-headline mb-3 md:mb-6"
                         >
                             <span className="hl-muted">I build systems that work in </span>
                             <span className="hl-bright">production</span>
-                            <br />
-                            <span className="hl-muted">and </span>
+                            <span className="hl-muted"> and </span>
                             <span className="hl-bright">observability tools</span>
                             <span className="hl-muted"> so I know when they don't. 😉</span>
                         </motion.h1>
@@ -101,7 +100,7 @@ export default function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: 'spring', duration: 0.6, delay: 0.15, bounce: 0 }}
-                            className="text-base sm:text-lg mb-8 leading-relaxed"
+                            className="text-sm sm:text-base md:text-lg mb-3 md:mb-8 leading-relaxed"
                             style={{ textWrap: 'balance', color: 'var(--color-text-secondary)' }}
                         >
                             Software Engineer at <span className="hl-bright">PhonePe</span> working on observability, infrastructure tooling, and bare-metal provisioning at production scale. I mostly work with Go, Python, OpenTelemetry, Linux, and distributed systems.
@@ -112,7 +111,7 @@ export default function Hero() {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ type: 'spring', duration: 0.6, delay: 0.25, bounce: 0 }}
-                            className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-8"
+                            className="flex flex-wrap items-center justify-center md:justify-start gap-2 sm:gap-3 mb-3 md:mb-8"
                         >
                             <a
                                 href={links.github}
@@ -167,24 +166,24 @@ export default function Hero() {
                         </motion.div>
                     </div>
                 </div>
-
-                {/* Scroll indicator */}
-                <motion.a
-                    href="#work"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.4 }}
-                    className="flex justify-center mt-14 transition-colors duration-150"
-                    style={{ color: 'var(--color-text-muted)' }}
-                >
-                    <motion.div
-                        animate={{ y: [0, 6, 0] }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                        <ArrowDown size={16} />
-                    </motion.div>
-                </motion.a>
             </div>
+
+            {/* Scroll indicator — absolutely positioned relative to section so it doesn't affect content centering */}
+            <motion.a
+                href="#work"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex justify-center transition-colors duration-150 z-20"
+                style={{ color: 'var(--color-text-muted)' }}
+            >
+                <motion.div
+                    animate={{ y: [0, 6, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                    <ArrowDown size={16} />
+                </motion.div>
+            </motion.a>
         </section>
     )
 }

@@ -3,7 +3,7 @@ import { ArrowRight } from 'lucide-react'
 
 export default function Experience() {
     return (
-        <section id="experience" className="py-24 px-6">
+        <section id="experience" className="py-24 px-6 relative section-divider">
             <div className="max-w-3xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}

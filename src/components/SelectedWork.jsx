@@ -36,7 +36,7 @@ const works = [
 
 export default function SelectedWork() {
     return (
-        <section id="work" className="py-24 px-6">
+        <section id="work" className="py-24 px-6 relative section-divider">
             <div className="max-w-4xl mx-auto">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
