@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import SelectedWork from './components/SelectedWork'
 import Experience from './components/Experience'
-import Projects from './components/Projects'
+import WhatIDo from './components/WhatIDo'
+import Skills from './components/Skills'
 import BlogCTA from './components/BlogCTA'
 import BlogPage from './components/BlogList'
-import Skills from './components/Skills'
-import Education from './components/Education'
 import Footer from './components/Footer'
 
 function App() {
@@ -57,37 +57,59 @@ function App() {
     setViewingPost(null)
   }
 
+  // Scroll reveal with IntersectionObserver
+  useEffect(() => {
+    const obs = new IntersectionObserver(
+      (entries) =>
+        entries.forEach((x) => {
+          if (!x.isIntersecting) return
+          setTimeout(() => x.target.classList.add('visible'), x.target.dataset.delay || 0)
+          obs.unobserve(x.target)
+        }),
+      { threshold: 0.08 }
+    )
+    document.querySelectorAll('.reveal').forEach((el) => {
+      const s = Array.from(el.parentElement.querySelectorAll('.reveal'))
+      if (!el.dataset.delay) el.dataset.delay = s.indexOf(el) * 90
+      obs.observe(el)
+    })
+    return () => obs.disconnect()
+  }, [blogOpen])
+
   return (
     <div className="min-h-screen">
-      <Header onOpenBlog={openBlog} />
+      {/* Hide the main Header when blog overlay is open — blog has its own top bar */}
+      {!blogOpen && <Header onOpenBlog={openBlog} />}
 
       {/* Main portfolio content */}
       <div className={blogOpen ? 'hidden' : ''}>
         <Hero />
+        <SelectedWork />
         <Experience />
-        <Projects />
-        <BlogCTA onOpenBlog={openBlog} />
+        <WhatIDo />
         <Skills />
-        <Education />
+        <BlogCTA onOpenBlog={openBlog} />
         <Footer />
       </div>
 
       {/* Full-page blog overlay */}
       {blogOpen && (
-        <div className="fixed inset-0 z-50 bg-surface overflow-y-auto">
+        <div className="fixed inset-0 z-50 overflow-y-auto" style={{ background: 'var(--color-surface)' }}>
           {/* Blog top bar */}
-          <div className="sticky top-0 z-10 bg-surface/80 backdrop-blur-xl border-b border-border">
+          <div className="sticky top-0 z-10" style={{ background: 'rgba(10,9,7,0.80)', backdropFilter: 'blur(16px) saturate(1.5)', borderBottom: '1px solid var(--color-border)' }}>
             <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
               <a
                 href="#"
                 onClick={(e) => { e.preventDefault(); closeBlog() }}
-                className="font-mono text-sm text-text-secondary hover:text-accent transition-colors"
+                className="font-mono text-sm transition-colors"
+                style={{ color: 'var(--color-text-secondary)' }}
               >
                 priyanshu<span className="text-accent">~</span>$
               </a>
               <button
                 onClick={closeBlog}
-                className="text-sm font-mono text-text-muted hover:text-text-primary transition-colors flex items-center gap-2"
+                className="text-sm font-mono transition-colors duration-150 flex items-center gap-2"
+                style={{ color: 'var(--color-text-muted)' }}
               >
                 <span className="hidden sm:inline">close</span>
                 <span className="text-lg leading-none">×</span>

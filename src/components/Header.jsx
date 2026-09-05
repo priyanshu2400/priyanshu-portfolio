@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
@@ -12,30 +12,20 @@ export default function Header({ onOpenBlog }) {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    // Close mobile menu on hash change
-    useEffect(() => {
-        setMobileOpen(false)
-    }, [])
-
     const links = [
-        { label: 'experience', href: '#experience' },
-        { label: 'projects', href: '#projects' },
-        { label: 'skills', href: '#skills' },
+        { label: 'work', href: '#work' },
     ]
 
     return (
         <motion.header
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${scrolled
-                ? 'bg-surface/80 backdrop-blur-xl border-b border-border'
-                : 'bg-transparent'
-                }`}
+            transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
+            className={`nav ${scrolled ? 'scrolled' : ''}`}
         >
             <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-                <a href="#" className="font-mono text-sm text-text-secondary hover:text-accent transition-colors">
-                    priyanshu<span className="text-accent">~</span>$
+                <a href="#" className="font-mono text-sm transition-colors duration-150" style={{ color: 'var(--color-text-secondary)' }}>
+                    priyanshu<span style={{ color: 'var(--color-accent)' }}>~</span>$
                 </a>
 
                 {/* Desktop nav */}
@@ -44,29 +34,42 @@ export default function Header({ onOpenBlog }) {
                         <a
                             key={link.label}
                             href={link.href}
-                            className="text-sm text-text-muted hover:text-text-primary transition-colors font-mono"
+                            className="text-sm transition-colors duration-150 font-mono"
+                            style={{ color: 'var(--color-text-muted)' }}
                         >
                             ./{link.label}
                         </a>
                     ))}
                     <button
                         onClick={onOpenBlog}
-                        className="text-sm text-text-muted hover:text-text-primary transition-colors font-mono"
+                        className="text-sm transition-colors duration-150 font-mono"
+                        style={{ color: 'var(--color-text-muted)' }}
                     >
-                        ./blog
+                        ./notes
                     </button>
                     <a
-                        href="mailto:priyanshujha024@gmail.com"
-                        className="text-sm text-accent hover:text-blue-400 transition-colors font-mono"
+                        href="https://github.com/priyanshu2400"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm transition-colors duration-150 font-mono"
+                        style={{ color: 'var(--color-text-muted)' }}
                     >
-                        contact
+                        github
+                    </a>
+                    <a
+                        href="/resume.pdf"
+                        download
+                        className="btn btn-primary btn-sm"
+                    >
+                        resume
                     </a>
                 </nav>
 
                 {/* Mobile hamburger */}
                 <button
                     onClick={() => setMobileOpen(!mobileOpen)}
-                    className="md:hidden text-text-muted hover:text-text-primary transition-colors p-1"
+                    className="md:hidden transition-colors duration-150 p-1"
+                    style={{ color: 'var(--color-text-secondary)' }}
                     aria-label="Toggle menu"
                 >
                     {mobileOpen ? <X size={20} /> : <Menu size={20} />}
@@ -80,8 +83,9 @@ export default function Header({ onOpenBlog }) {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="md:hidden border-t border-border bg-surface/95 backdrop-blur-xl overflow-hidden"
+                        transition={{ duration: 0.2, ease: [0.2, 0, 0, 1] }}
+                        className="md:hidden border-t overflow-hidden"
+                        style={{ borderColor: 'var(--color-border)', background: 'rgba(10, 9, 7, 0.95)', backdropFilter: 'blur(16px)' }}
                     >
                         <nav className="px-6 py-4 flex flex-col gap-3">
                             {links.map((link) => (
@@ -89,23 +93,36 @@ export default function Header({ onOpenBlog }) {
                                     key={link.label}
                                     href={link.href}
                                     onClick={() => setMobileOpen(false)}
-                                    className="text-sm text-text-muted hover:text-text-primary transition-colors font-mono py-1"
+                                    className="text-sm transition-colors duration-150 font-mono py-1"
+                                    style={{ color: 'var(--color-text-secondary)' }}
                                 >
                                     ./{link.label}
                                 </a>
                             ))}
                             <button
                                 onClick={() => { onOpenBlog(); setMobileOpen(false) }}
-                                className="text-sm text-text-muted hover:text-text-primary transition-colors font-mono py-1 text-left"
+                                className="text-sm transition-colors duration-150 font-mono py-1 text-left"
+                                style={{ color: 'var(--color-text-secondary)' }}
                             >
-                                ./blog
+                                ./notes
                             </button>
                             <a
-                                href="mailto:priyanshujha024@gmail.com"
+                                href="https://github.com/priyanshu2400"
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 onClick={() => setMobileOpen(false)}
-                                className="text-sm text-accent hover:text-blue-400 transition-colors font-mono py-1"
+                                className="text-sm transition-colors duration-150 font-mono py-1"
+                                style={{ color: 'var(--color-text-secondary)' }}
                             >
-                                contact
+                                github
+                            </a>
+                            <a
+                                href="/resume.pdf"
+                                download
+                                onClick={() => setMobileOpen(false)}
+                                className="btn btn-primary btn-sm w-fit mt-1"
+                            >
+                                resume
                             </a>
                         </nav>
                     </motion.div>
