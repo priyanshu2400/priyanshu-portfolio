@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import { links } from '../config'
 
 export default function Header({ onOpenBlog }) {
     const [scrolled, setScrolled] = useState(false)
@@ -48,7 +49,7 @@ export default function Header({ onOpenBlog }) {
                         ./notes
                     </button>
                     <a
-                        href="https://github.com/priyanshu2400"
+                        href={links.github}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm transition-colors duration-150 font-mono"
@@ -57,8 +58,9 @@ export default function Header({ onOpenBlog }) {
                         github
                     </a>
                     <a
-                        href="/resume.pdf"
-                        download="Priyanshu_Resume.pdf"
+                        href={links.resume}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="btn btn-primary btn-sm"
                     >
                         resume
@@ -107,7 +109,7 @@ export default function Header({ onOpenBlog }) {
                                 ./notes
                             </button>
                             <a
-                                href="https://github.com/priyanshu2400"
+                                href={links.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={() => setMobileOpen(false)}
@@ -117,8 +119,9 @@ export default function Header({ onOpenBlog }) {
                                 github
                             </a>
                             <a
-                                href="/resume.pdf"
-                                download="Priyanshu_Resume.pdf"
+                                href={links.resume}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 onClick={() => setMobileOpen(false)}
                                 className="btn btn-primary btn-sm w-fit mt-1"
                             >
