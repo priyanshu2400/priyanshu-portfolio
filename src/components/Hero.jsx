@@ -1,6 +1,7 @@
 ﻿import { motion } from 'framer-motion'
 import { ArrowDown, Download, Mail } from 'lucide-react'
 import { useState } from 'react'
+import { links } from '../config'
 
 function GithubIcon({ size = 18 }) {
     return (
@@ -23,7 +24,7 @@ export default function Hero() {
 
     const handleEmail = (e) => {
         e.preventDefault()
-        const email = 'priyanshujha024@gmail.com'
+        const email = links.email
         // Try opening mail client via location change
         const link = document.createElement('a')
         link.href = `mailto:${email}`
@@ -114,7 +115,7 @@ export default function Hero() {
                             className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-8"
                         >
                             <a
-                                href="https://github.com/priyanshu2400"
+                                href={links.github}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-secondary"
@@ -123,7 +124,7 @@ export default function Hero() {
                                 GitHub
                             </a>
                             <a
-                                href="https://linkedin.com/in/priyanshujha07"
+                                href={links.linkedin}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="btn btn-secondary"
@@ -132,7 +133,7 @@ export default function Hero() {
                                 LinkedIn
                             </a>
                             <a
-                                href="mailto:priyanshujha024@gmail.com"
+                                href={`mailto:${links.email}`}
                                 className="btn btn-secondary"
                                 onClick={handleEmail}
                                 style={{ position: 'relative' }}
@@ -140,7 +141,7 @@ export default function Hero() {
                                 <Mail size={16} />
                                 {copied ? 'Copied!' : 'Email'}
                             </a>
-                            <a href="/resume.pdf" download="Priyanshu_Resume.pdf" className="btn btn-secondary">
+                            <a href={links.resume} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
                                 <Download size={16} />
                                 Resume
                             </a>

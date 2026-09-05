@@ -1,4 +1,5 @@
 ﻿import { Mail, FileText } from 'lucide-react'
+import { links } from '../config'
 
 function GithubIcon({ size = 18 }) {
     return (
@@ -30,7 +31,7 @@ export default function Footer() {
 
                     <div className="flex items-center justify-center gap-5">
                         <a
-                            href="https://github.com/priyanshujha07"
+                            href={links.github}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="transition-colors duration-150"
@@ -42,7 +43,7 @@ export default function Footer() {
                             <GithubIcon size={18} />
                         </a>
                         <a
-                            href="https://linkedin.com/in/priyanshujha07"
+                            href={links.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="transition-colors duration-150"
@@ -54,7 +55,7 @@ export default function Footer() {
                             <LinkedinIcon size={18} />
                         </a>
                         <a
-                            href="mailto:priyanshujha2004@gmail.com"
+                            href={`mailto:${links.email}`}
                             className="transition-colors duration-150"
                             style={{ color: 'var(--color-text-secondary)' }}
                             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--color-accent)')}
@@ -64,8 +65,7 @@ export default function Footer() {
                             <Mail size={18} />
                         </a>
                         <a
-                            href="/resume.pdf"
-                            download="Priyanshu_Resume.pdf"
+                            href={links.resume}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="transition-colors duration-150"
@@ -79,7 +79,7 @@ export default function Footer() {
                     </div>
 
                     <p className="mt-6 text-xs" style={{ color: 'var(--color-text-muted)' }}>
-                        © 2026 Priyanshu Jha
+                        © 2026 Priyanshu
                     </p>
                 </div>
             </div>
