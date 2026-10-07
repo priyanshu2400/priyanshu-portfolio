@@ -13,7 +13,7 @@ export default function Header({ onOpenBlog }) {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const links = [
+    const navLinks = [
         { label: 'work', href: '#work' },
     ]
 
@@ -31,7 +31,7 @@ export default function Header({ onOpenBlog }) {
 
                 {/* Desktop nav */}
                 <nav className="hidden md:flex items-center gap-6">
-                    {links.map((link) => (
+                    {navLinks.map((link) => (
                         <a
                             key={link.label}
                             href={link.href}
@@ -90,7 +90,7 @@ export default function Header({ onOpenBlog }) {
                         style={{ borderColor: 'var(--color-border)', background: 'rgba(10, 9, 7, 0.95)', backdropFilter: 'blur(16px)' }}
                     >
                         <nav className="px-6 py-4 flex flex-col gap-3">
-                            {links.map((link) => (
+                            {navLinks.map((link) => (
                                 <a
                                     key={link.label}
                                     href={link.href}
