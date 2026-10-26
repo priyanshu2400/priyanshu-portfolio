@@ -1,16 +1,16 @@
 ﻿[
   {
-    "slug": "ebpf-observability",
-    "title": "What eBPF Taught Me About Linux Observability",
-    "date": "2025-08-15",
-    "description": "I wanted to see what was happening below the application layer without adding another agent. Here's what eBPF changed about how I observe Linux systems.",
-    "tags": ["eBPF", "Observability", "Linux", "Systems"],
-    "readTime": "8 min read"
+    "slug": "prometheus-counter-label-collisions",
+    "title": "How Prometheus Counters Work — and How Two Sources Inflate One Series",
+    "date": "2026-09-12",
+    "description": "A counter looks harmless until two exporters write to the same series. Then rate() starts inventing traffic that never happened.",
+    "tags": ["Prometheus", "OpenTelemetry", "Metrics", "Observability"],
+    "readTime": "10 min read"
   },
   {
     "slug": "multiprocess-python-metrics",
     "title": "Why My Python Metrics Died After Gunicorn Forked",
-    "date": "2025-07-20",
+    "date": "2026-07-20",
     "description": "I had metrics working locally and completely disappearing in production. That turned out to be a process-model problem, not a Prometheus problem.",
     "tags": ["Python", "OpenTelemetry", "Gunicorn", "Observability"],
     "readTime": "6 min read"

@@ -62,15 +62,15 @@ export default function BlogCTA({ onOpenBlog }) {
                             className="text-base font-semibold mb-1 transition-colors duration-150"
                             style={{ color: 'var(--color-text-primary)' }}
                         >
-                            What eBPF Taught Me About Linux Observability
+                            How Prometheus Counters Work — and How Two Sources Inflate One Series
                         </h3>
                         <p className="text-sm mb-3" style={{ color: 'var(--color-text-secondary)' }}>
-                            Experiments with eBPF and what it changes about observing systems below the application layer.
+                            Why a counter can look like it's exploding when two exporters write to the same label set.
                         </p>
                         <div className="flex flex-wrap items-center gap-2">
-                            <span className="tag tag-accent">eBPF</span>
-                            <span className="tag tag-accent">Linux</span>
-                            <span className="tag tag-accent">Observability</span>
+                            <span className="tag tag-accent">Prometheus</span>
+                            <span className="tag tag-accent">OpenTelemetry</span>
+                            <span className="tag tag-accent">Metrics</span>
                         </div>
                     </motion.div>
                 </div>
